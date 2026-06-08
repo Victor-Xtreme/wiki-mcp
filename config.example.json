@@ -1,0 +1,28 @@
+{
+  "allowWikiManagement": true,
+  "defaultWiki": "wiki.fosscell.org",
+  "wikis": {
+    "wiki.fosscell.org": {
+      "sitename": "NITC Wiki",
+      "server": "https://wiki.fosscell.org",
+      "articlepath": "/wiki",
+      "scriptpath": "/w",
+      "username": null,
+      "password": null,
+      "token": null,
+      "private": false,
+      "tags": ["mcp-server"]
+    },
+    "localhost:8080": {
+      "sitename": "Local MediaWiki (Dev)",
+      "server": "http://localhost:8080",
+      "articlepath": "/wiki",
+      "scriptpath": "/w",
+      "username": null,
+      "password": null,
+      "token": null,
+      "private": false,
+      "tags": null
+    }
+  }
+}
