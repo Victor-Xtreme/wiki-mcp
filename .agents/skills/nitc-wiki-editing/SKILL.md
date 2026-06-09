@@ -73,7 +73,6 @@ read them when you need detail:
 - `rules/page-types.md` — step-by-step recipe per page type.
 - `rules/editing.md` — wikitext style (prose stays plain; styling lives in
   templates using theme CSS variables; `{{#mermaid:}}`, `{{DISPLAYTITLE}}`).
-
 ## Workflow for a new page
 
 1. Identify the page type and read its `Form:` / `Template:` for exact fields.
