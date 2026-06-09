@@ -75,8 +75,12 @@ jq -r '.wikis | to_entries[] | .key' "$CONFIG_PATH" | while read -r wiki_key; do
 
   sitename=$(jq -r ".wikis[\"$wiki_key\"].sitename // empty" "$CONFIG_PATH")
   server=$(jq -r ".wikis[\"$wiki_key\"].server // empty" "$CONFIG_PATH")
-  articlepath=$(jq -r ".wikis[\"$wiki_key\"].articlepath // empty" "$CONFIG_PATH")
-  scriptpath=$(jq -r ".wikis[\"$wiki_key\"].scriptpath // empty" "$CONFIG_PATH")
+  # articlepath and scriptpath are legitimately empty strings on root-path
+  # wikis (e.g. wiki.fosscell.org), so check key presence, not truthiness.
+  has_articlepath=$(jq -r ".wikis[\"$wiki_key\"] | has(\"articlepath\")" "$CONFIG_PATH")
+  has_scriptpath=$(jq -r ".wikis[\"$wiki_key\"] | has(\"scriptpath\")" "$CONFIG_PATH")
+  articlepath=$(jq -r ".wikis[\"$wiki_key\"].articlepath // \"\"" "$CONFIG_PATH")
+  scriptpath=$(jq -r ".wikis[\"$wiki_key\"].scriptpath // \"\"" "$CONFIG_PATH")
   is_private=$(jq -r ".wikis[\"$wiki_key\"].private // false" "$CONFIG_PATH")
 
   # Check required fields
@@ -92,16 +96,16 @@ jq -r '.wikis | to_entries[] | .key' "$CONFIG_PATH" | while read -r wiki_key; do
     echo -e "    ${GREEN}[PASS]${NC} server: $server"
   fi
 
-  if [ -z "$articlepath" ]; then
-    echo -e "    ${RED}[FAIL]${NC} Missing articlepath"
+  if [ "$has_articlepath" = "true" ]; then
+    echo -e "    ${GREEN}[PASS]${NC} articlepath: '${articlepath}' (empty = pages served at site root)"
   else
-    echo -e "    ${GREEN}[PASS]${NC} articlepath: $articlepath"
+    echo -e "    ${RED}[FAIL]${NC} Missing articlepath key"
   fi
 
-  if [ -z "$scriptpath" ]; then
-    echo -e "    ${RED}[FAIL]${NC} Missing scriptpath"
+  if [ "$has_scriptpath" = "true" ]; then
+    echo -e "    ${GREEN}[PASS]${NC} scriptpath: '${scriptpath}' (empty = api.php at site root)"
   else
-    echo -e "    ${GREEN}[PASS]${NC} scriptpath: $scriptpath"
+    echo -e "    ${RED}[FAIL]${NC} Missing scriptpath key"
   fi
 
   # Warn if no auth configured for a private wiki

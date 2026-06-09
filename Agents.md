@@ -4,6 +4,18 @@ This document is the **authoritative rulebook** for any AI agent (Claude, Cursor
 
 ---
 
+## 0. What is enforced vs. what is guidance
+
+Be honest about where these rules live:
+
+- **Enforced by the wiki** — MediaWiki user rights and bot-password grants. An agent literally cannot do what its account isn't permitted to do (e.g. delete a page without the delete right).
+- **Provided by the MCP server** — the bundled `@professional-wiki/mediawiki-mcp-server` exposes a fixed set of tools (`get-page`, `update-page`, `upload-file`, `whoami`, etc.). Uploads are off until upload directories are configured. The server does **not** expose `bot`, `minor`, `assert=bot`, or `maxlag` parameters on its edit tools.
+- **Guidance only (this document + `rules/`)** — naming conventions, edit-summary format, namespace etiquette, license tags. Nothing mechanically enforces these; they work only because the agent is asked to follow them. Where a rule below mentions a parameter the MCP tools don't support (`bot`, `minor`, `maxlag`, `assert=bot`), treat it as background — the MCP edit tools simply take a title, content, and an edit summary.
+
+When in doubt, prefer the [Review Protocol](#8-review-protocol): surface the action to a human.
+
+---
+
 ## 1. Identity
 
 Every edit, upload, or other logged action must identify the agent clearly.
@@ -47,7 +59,7 @@ Claude/1.0 (https://wiki.fosscell.org; User:ExampleBot) MediaWiki-MCP-Server/1.0
 ### General rules
 - Never share credentials between agents. Each agent gets its own token or bot password.
 - Anonymous (unauthenticated) access is allowed for read-only tools only.
-- Authenticated sessions must send the `assert=bot` parameter to enable bot flags.
+- Authenticated sessions should send the `assert=bot` parameter to enable bot flags where the client supports it (direct MediaWiki API access only; not exposed by the MCP tools).
 
 ---
 
@@ -58,23 +70,36 @@ Agents may freely read any page in the following namespaces:
 | Namespace | ID | Notes |
 |---|---|---|
 | Main (articles) | 0 | Standard wiki content |
+| `YYYY:` (year) | 3000–3135 | Event/edition pages (e.g. `2026:FOSSMeet`) |
+| HowTo | 3200 | How-to guides |
 | User | 2 | Only pages the agent's operator owns |
 | File | 6 | File metadata and descriptions |
 | MediaWiki | 8 | Read only — never edit |
-| Template | 10 | Read to understand template parameters |
+| Template | 10 | Read to understand infobox/Cargo parameters |
+| Form | 106 | Read to learn a page type's fields (Page Forms) |
+| Property | 102 | Semantic MediaWiki properties |
 | Category | 14 | Category pages and hierarchy |
 | Help | 12 | Help documentation |
+| `WIKI FOSSCELL NITC:` (Project) | 4 | Policy, Task Board, form helpers |
 
-Agents must not read `Special:` pages or restricted API modules without explicit human approval.
+For the full namespace map and naming conventions see
+[`rules/namespaces.md`](rules/namespaces.md). Agents must not read `Special:` pages
+or restricted API modules without explicit human approval.
+
+> **This is a structured-data wiki** (Cargo + SMW + Page Forms). Before creating
+> content, read [`rules/structured-data.md`](rules/structured-data.md) and the
+> per-type recipes in [`rules/page-types.md`](rules/page-types.md).
 
 ---
 
 ## 4. Write Rules
 
 ### Before creating a page
-1. Check the page does not already exist (`get-page`).
-2. Verify the title follows wiki naming conventions (sentence case, no special chars except `-` and `/`).
+1. Check the page does not already exist (`get-page`), and look at a sibling page of the same type to copy its pattern.
+2. Verify the title follows the wiki's naming conventions (see [`rules/namespaces.md`](rules/namespaces.md)): `YYYY:EventName` for events, `Firstname Lastname` for people, common name for clubs. No special chars except `-`, `/`, `'`, `:`.
 3. The page must belong to an allowed namespace (see Read Rules).
+4. Use the matching **form/infobox/Cargo template** for the page type — don't hand-format structured content. See [`rules/page-types.md`](rules/page-types.md).
+5. Add at least one **category** (real names only — see [`rules/categories.md`](rules/categories.md)).
 
 ### Before editing a page
 1. Fetch the current content (`get-page`).
@@ -82,6 +107,9 @@ Agents must not read `Special:` pages or restricted API modules without explicit
 3. Always provide a non-empty edit summary (see Identity section).
 
 ### Edit parameters
+
+> The MCP server's `update-page` / `create-page` tools do **not** expose `bot`, `minor`, `maxlag`, or `assert=bot`. When editing through MCP, just provide a clear edit summary. The settings below are documented for completeness and apply only to direct MediaWiki API access.
+
 - Set `bot: true` to suppress edits from recent changes (bot flag required).
 - Set `minor: true` for typo fixes, formatting, and link corrections.
 - Set `minor: false` for content additions, new sections, or structural changes.
@@ -90,10 +118,17 @@ Agents must not read `Special:` pages or restricted API modules without explicit
 ### Prohibited edits
 - No edits to `MediaWiki:` namespace pages (system messages).
 - No edits to user JS/CSS pages (`User:*.js`, `User:*.css`) unless the operator explicitly confirms.
+- No changes to a **Cargo-declaring template** (`{{#cargo_declare}}` / `{{#cargo_store}}`) without human review — it needs a table rebuild.
+- No edits to `Module:`, `Widget:`, `GeoJson:`, or `smw/schema:` pages without human review (code/schema).
 
 ---
 
 ## 5. Upload Rules
+
+> **Uploads are disabled in the current beta.** The MCP server is run without any
+> allowed upload directories, so `upload-file` is unavailable and agents cannot add
+> files to the wiki. The rules below describe the intended policy for when uploads
+> are turned on later.
 
 ### Allowed file types
 | Format | Extensions | Max size |

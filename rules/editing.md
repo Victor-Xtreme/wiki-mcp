@@ -1,6 +1,8 @@
 # Editing Rules — Wikitext Style Guide
 
-This document defines the wikitext style that AI agents must follow when creating or editing pages on the NITC Wiki.
+The wikitext style AI agents should follow when creating or editing pages on the
+NITC Wiki. For *what* to put on each kind of page, see
+[page-types.md](page-types.md) and [structured-data.md](structured-data.md).
 
 ---
 
@@ -44,7 +46,8 @@ Do not use HTML `<b>`, `<i>`, or `<u>` tags — use wikitext equivalents.
 - Link to a section: `[[Page title#Section heading]]`.
 - Link to a category: `[[:Category:Category name]]` (leading colon renders as link, not categorisation).
 - Link to a file: `[[File:Filename.png|thumb|caption]]`.
-- Do not pipe links just to hide the plural: incorrect `[[Page]]s`, correct `[[Page]]s` (MediaWiki handles this automatically).
+- Plurals work via the link trail: write `[[Page]]s`, not `[[Page|Pages]]`.
+- Link to an event in a year namespace with its prefix: `[[2026:FOSSMeet]]`.
 
 ## 4. External links
 
@@ -114,15 +117,29 @@ See `Agents.md § Identity` for the required edit summary format. Summaries must
 - Briefly describe what changed and why.
 - Not contain personal information.
 
-## 9. Prohibited markup
+## 9. Markup: prose vs. presentation
 
-- No `<span>` or `<div>` for styling — use wikitext or templates.
-- No inline CSS — all styling goes in template or site CSS.
-- No `<font>` tags — deprecated.
-- No tables used for page layout (use div-based layout or templates).
-- No raw HTML where a wikitext equivalent exists.
+Keep a clean split:
 
-## 10. Page structure
+- **Article prose** — plain wikitext. Don't wrap ordinary paragraphs in `<div>`,
+  add inline CSS, or build layout tables. Use headings, lists, and links.
+- **Presentation/layout** lives in **templates** (infoboxes, Main Page sections,
+  tabs). These legitimately use `<div style="...">` and tables — that's how the
+  wiki is built. If you must style inside a template, use the theme's **CSS
+  variables** (`var(--color-surface-2)`, `var(--color-border)`, …) so pages stay
+  night-mode aware. Never hardcode hex colours.
+- No `<font>` tags (deprecated). Avoid raw HTML where a wikitext equivalent exists.
+
+## 10. Useful parser features on this wiki
+
+- **Diagrams:** `{{#mermaid:}}` renders Mermaid graphs (used in club "Team
+  Structure" sections).
+- **Display titles:** `{{DISPLAYTITLE:FOSSMeet'26}}` for stylised titles; the real
+  page title still follows the naming convention.
+- **Structured data:** `{{#cargo_query:}}` to list data instead of hand-maintained
+  lists. See [structured-data.md](structured-data.md).
+
+## 11. Page structure
 
 Pages should follow this general structure:
 

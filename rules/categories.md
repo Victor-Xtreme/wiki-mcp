@@ -1,54 +1,88 @@
 # Category Rules
 
-This document defines category conventions and hierarchy for the NITC Wiki.
+Category conventions for the NITC Wiki. **Verified against the live category
+list** — use real category names, not invented ones.
 
 ---
 
-## Root categories
+## How NITC Wiki names categories
 
-All content should fall under one of these root categories:
+The established convention (observed across hundreds of pages) is:
 
-| Category | Contents |
+- **Title Case** — capitalise each significant word: `Clubs and Organizations`,
+  `Food and Eateries`, `Gates and Landmarks`, `Home Teams`.
+- **Plural** for categories that group instances: `Events`, `Hostels`,
+  `Departments`, `Laboratories`, `Faculty`.
+- **Spelled-out "and"** (not `&`).
+- **Year categories** are bare years: `Category:2026`. Event editions also get a
+  combined one: `Category:FOSSMeet 2026`.
+
+> This differs from generic MediaWiki "sentence case" advice. On this wiki, match
+> the existing Title-Case-plural style.
+
+---
+
+## Real top-level categories (use these, don't invent)
+
+| Category | What goes in it |
 |---|---|
-| `Category:Clubs and Communities` | Student clubs (FOSSCell, IEDC, etc.) |
-| `Category:Events` | FOSSMeet, Ragam, Tathva, CodeInit, workshops |
-| `Category:People` | Faculty, alumni, contributors |
-| `Category:Projects` | Open source projects by NITC students |
-| `Category:Infrastructure` | Labs, buildings, servers, network |
-| `Category:Campus Life` | Hostels, mess, sports, cultural groups |
-| `Category:Tutorials` | How-to guides and technical documentation |
-| `Category:Templates` | Reusable wiki templates |
-| `Category:Files` | Uploaded media organised by type |
+| `Category:Events` | Any event or festival edition (also add the year + specific event cat). |
+| `Category:FOSSMeet` | FOSSMeet pages (plus `Category:FOSSMeet YYYY`). |
+| `Category:Ragam`, `Category:Tathva` | Those festivals. |
+| `Category:Clubs and Organizations` | Student clubs (e.g. FOSSCell). |
+| `Category:Home Teams` | Hostel/home teams. |
+| `Category:Communities` | Interest groups / communities. |
+| `Category:People` | People in general. |
+| `Category:Faculty` | Faculty members. |
+| `Category:Departments` | Academic departments. |
+| `Category:Academics`, `Category:Courses` | Academic content; courses. |
+| `Category:Campus` | Campus places (umbrella). |
+| `Category:Academic Buildings`, `Category:Laboratories` | Buildings and labs. |
+| `Category:Hostels` | Hostels. |
+| `Category:Amenities`, `Category:Food and Eateries` | Facilities and eateries. |
+| `Category:Gates and Landmarks`, `Category:Grounds and Courts` | Outdoor places. |
+| `Category:Student Government`, `Category:Student Life` | Student governance and life. |
+| `Category:HowTo` | How-to guides. |
+| `Category:Stubs` | Stub pages (added by `{{Stub}}`). |
 
-## Naming conventions
+For template/maintenance categories see [templates.md](templates.md). When in
+doubt, open a similar existing page and copy its categories verbatim.
 
-- Capitalise the first letter of each word: `Category:Clubs And Communities`.
-- Use singular for categories that describe a type: `Category:Event` not `Category:Events`.
-- Use plural for categories that contain instances: `Category:Projects` (contains many projects).
-- Avoid abbreviations: `Category:National Institute of Technology Calicut` not `Category:NITC`.
+---
 
-## Hierarchy rules
+## How to categorise a page
 
-1. Every page must belong to at least one category.
-2. Categories should be placed at the **bottom** of the page.
-3. Subcategories should have exactly one parent category (no multiple parents unless cross-listing is intended).
-4. Maximum depth: 5 levels from root.
-5. Use `Category:...` links, not pipe-tricked variations.
+1. **Every page gets at least one category.** Uncategorised pages are a known
+   cleanup burden — never leave a new page bare.
+2. Place categories at the **bottom** of the page, after `== See also ==` /
+   `== References ==`.
+3. Add the **most specific** category plus its umbrella(s). An event typically
+   carries three:
+   ```wikitext
+   [[Category:FOSSMeet]]
+   [[Category:FOSSMeet 2026]]
+   [[Category:Events]]
+   ```
+4. Use a **sort key** when the page title shouldn't drive ordering:
+   ```wikitext
+   [[Category:Events|Ragam]]
+   ```
+5. To *link* to a category (instead of categorising), use the leading colon:
+   `[[:Category:Events]]`.
 
-## Prohibited actions
+---
 
-- Agents must not delete or rename categories.
-- Agents must not add pages to root categories directly (use subcategories).
-- Agents must not create "uncategorised" or "miscellaneous" catch-all categories.
-- Agents must not change the parent of a category without human review.
+## Before creating a new category
 
-## Category syntax
+1. Check it doesn't already exist under a slightly different name
+   (`search-page-by-prefix` with prefix `Category:`). The wiki already has a long,
+   curated list — reuse beats inventing.
+2. Match the Title-Case-plural style.
+3. Give the new category page at least one parent category so it isn't orphaned.
 
-Use standard wiki syntax:
+## Prohibited
 
-```
-[[Category:Events|Ragam]]
-[[Category:Ragam|2025]]
-```
-
-The sort key (text after `|`) should reflect the page title or a logical ordering value.
+- Don't delete or rename categories (surface to a human).
+- Don't create catch-all `Miscellaneous` / `Uncategorised` categories.
+- Don't reparent an existing category without human review.
+- Don't apply a category whose name you guessed — verify it exists first.

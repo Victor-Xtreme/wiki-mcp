@@ -1,5 +1,10 @@
 # Upload Rules
 
+> **Uploads are disabled in the current beta.** The MCP server runs with no allowed
+> upload directories, so the `upload-file` tool is unavailable. The rules below
+> describe the intended policy for when uploads are enabled later — do not attempt
+> to upload files for now.
+
 This document defines rules for file uploads made by AI agents to the NITC Wiki.
 
 ---
