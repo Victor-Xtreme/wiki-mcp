@@ -64,7 +64,8 @@ search-page(query="Category:Clubs and Organizations")
 ```
 
 Compare the two lists. Pages in the category but not transcluding the infobox
-are candidates for fixing.
+are candidates for fixing. Pages transcluding the infobox but not in the
+category are candidates for categorization fixes.
 
 ### How to fix
 
