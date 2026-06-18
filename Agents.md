@@ -209,7 +209,26 @@ The agent must provide the human with:
 
 ---
 
-## 9. Enforcement
+## 9. Draft Format
+
+When the user asks you to prepare a draft (of category pages, template changes, new pages, or any batch edit), follow this procedure:
+
+### Location
+- Create a `drafts/` directory at the project root (`D:\Projects\NITC Wiki\NITC Wiki MCP\drafts\`) if it does not already exist.
+- Place **all** draft files inside this directory. Do not scatter drafts elsewhere in the repo.
+
+### Contents
+1. **Draft document** — one or more `.md` files describing every proposed change (page content, category tags, etc.). Name them descriptively, e.g. `category-hierarchy-draft.md`.
+2. **HTML mockups** — one or more `draftpage-{N}.html` files showing how the modified pages will look after the changes are applied. The mockups should mimic the wiki's actual rendering (Citizen skin) as closely as possible: category member lists, subcategory grids, and page content.
+   - If the draft affects many similar pages (e.g. adding a category tag to 50 templates), make mockups of **2–3 representative pages** only.
+   - Mockups must be self-contained HTML files (CSS inline or in `<style>`).
+
+### Goal
+The human operator should be able to open each `draftpage-*.html` in a browser and see exactly what the wiki will look like after the changes — without having to imagine or cross-reference.
+
+---
+
+## 10. Enforcement
 
 - Every agent integration in the Wiki-NITC organisation **must** load this document and follow its rules.
 - If an agent's setup contradicts any rule here, this document takes precedence.
