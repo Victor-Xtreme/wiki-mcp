@@ -212,6 +212,6 @@ The agent must provide the human with:
 
 ## 9. Enforcement
 
-- Every agent integration in the Wiki-NITC organisation **must** load this document and follow its rules.
+- Every agent integration in the Wiki-NITC organisation **must** load this document and follow its rules.(Rules are present in the rules folder.)
 - If an agent's setup contradicts any rule here, this document takes precedence.
 - Violations should be reported to the wiki sysops via `Special:EmailUser` or the FOSS Cell communication channel.
