@@ -5,128 +5,219 @@ description: Work with the NITC Wiki task board. Find open tasks, claim or updat
 
 # Wiki Task Board
 
-Use this skill to work with the **task board** on `wiki.fosscell.org`. Tasks
-are wiki pages that store rows in the `WikiTasks` Cargo table, so the board
-is queryable.
+Use this skill to read, create, claim, update, and report on tasks in the
+NITC Wiki task board. Tasks are wiki pages in `WIKI FOSSCELL NITC:Tasks/`
+backed by the `WikiTasks` Cargo table.
 
 ---
 
-## Where tasks live
+## How to query tasks
+
+The `cargo-query` API tool is permission-restricted for regular accounts.
+Use `{{#cargo_query:}}` through `parse-wikitext` instead:
+
+### All open tasks, highest priority first
 
 ```
-WIKI FOSSCELL NITC:Tasks/<Short task name>
+parse-wikitext(wikitext="{{#cargo_query:tables=WikiTasks
+|fields=_pageName,task_title,priority,assignee,deadline,category
+|where=status='open' OR status='claimed'
+|order by=priority
+|format=table
+|limit=100}}")
 ```
 
-(Project namespace, ID 4.) Live examples:
+### Unassigned open tasks (what can I pick up?)
 
-- `WIKI FOSSCELL NITC:Tasks/Mass categorize uncategorized pages`
-- `WIKI FOSSCELL NITC:Tasks/Backfill FOSSMeet historical data`
-- `WIKI FOSSCELL NITC:Tasks/Create department infobox`
+```
+parse-wikitext(wikitext="{{#cargo_query:tables=WikiTasks
+|fields=_pageName,task_title,priority,category
+|where=status='open' AND assignee=''
+|order by=priority
+|format=ul}}")
+```
+
+### Tasks by team category
+
+```
+parse-wikitext(wikitext="{{#cargo_query:tables=WikiTasks
+|fields=_pageName,task_title,assignee,status
+|where=category HOLDS 'template-admins' AND status='open'
+|format=ul}}")
+```
+
+### Tasks assigned to a specific user
+
+```
+parse-wikitext(wikitext="{{#cargo_query:tables=WikiTasks
+|fields=_pageName,task_title,status,deadline
+|where=assignee='SomeUsername'
+|format=ul}}")
+```
+
+### Overdue tasks
+
+```
+parse-wikitext(wikitext="{{#cargo_query:tables=WikiTasks
+|fields=_pageName,task_title,assignee,deadline
+|where=deadline < '2026-06-19' AND status != 'done'
+|format=table}}")
+```
 
 ---
 
-## The Task template
+## How to create a task
 
-Each task page is a single `{{Task}}` call. Live example:
+1. **Check it does not already exist.** Search `WikiTasks` for similar titles
+   using `parse-wikitext` + `{{#cargo_query:...|where=task_title LIKE '%keyword%'|format=ul}}`.
+   Also `get-page` the planned title to confirm the page doesn't exist.
+
+2. **Read `Template:Task` first** for the current field names and accepted
+   values.
+
+3. **Create the page** at `WIKI FOSSCELL NITC:Tasks/<Short-name>` with one
+   `{{Task}}` call. Always provide:
+   - `title` — one-line summary
+   - `status=open`
+   - `priority` — high, medium, or low
+   - `category` — work-type (+ team if applicable), comma-separated
+   - `description` — self-contained, actionable context
+   - `created` — today's date in `YYYY-MM-DD`
+
+4. **Show the human the wikitext** before saving (review protocol).
+
+### Preload snippet for new tasks
 
 ```wikitext
 {{Task
-|title=Mass-categorize ~257 uncategorized pages
+|title=
 |status=open
-|priority=high
-|category=content
-|description=The wiki has ~257 pages with no categories. Work through
-Special:UncategorizedPages in batches of 50. Add appropriate categories
-from the established category tree.
-|created=2026-05-24
+|priority=medium
+|category=
+|assignee=
+|deadline=
+|description=
+|created=2026-06-19
 }}
-```
 
-The `WikiTasks` Cargo schema also has `assignee` (String) and `deadline`
-(Date), settable as `|assignee=` and `|deadline=`. Read `Template:Task` on
-the live wiki before writing to confirm the accepted values for `status`,
-`priority`, and `category`; observed values so far are `status=open`,
-`priority=high|medium|low`, `category=content|technical|admin`.
+== Details ==
 
----
 
-## Querying the board
+== Notes ==
 
-The `cargo-query` API tool is permission-restricted for regular accounts.
-Use a `{{#cargo_query:}}` parser function through `parse-wikitext` instead
-(see the `cargo-auditor` skill for the full technique):
 
-List open tasks, highest priority first:
-
-```
-{{#cargo_query:tables=WikiTasks
-|fields=_pageName,task_title,priority,assignee,deadline
-|where=status='open'
-|order by=priority
-|format=ul}}
-```
-
-Unassigned open tasks (good for "what can I pick up?"):
-
-```
-{{#cargo_query:tables=WikiTasks|fields=_pageName,task_title,priority|where=status='open' AND assignee=''|format=ul}}
-```
-
-Tasks assigned to a specific person:
-
-```
-{{#cargo_query:tables=WikiTasks|fields=_pageName,task_title,status|where=assignee='Vysakh'|format=ul}}
 ```
 
 ---
 
-## Workflows
+## How to claim a task
 
-### Pick up a task
-
-1. Query unassigned open tasks (above) and let the human choose, or match
-   the task to what they asked for.
-2. `whoami` to get the acting username.
-3. Fetch the task page, add `|assignee=<username>` to the `{{Task}}` call,
-   and save with summary `Claim task - <agent>`.
-
-### Complete a task
-
-1. Fetch the task page and confirm the work described is actually done.
-2. Change `|status=` to the completed value (check `Template:Task`; do not
-   guess a value the template does not render).
-3. Save with summary `Mark task done - <agent>`.
-
-### Create a task
-
-1. Check it does not already exist: query `WikiTasks` for a similar
-   `task_title`, and `get-page` the planned title.
-2. Create `WIKI FOSSCELL NITC:Tasks/<Short name>` containing one `{{Task}}`
-   call. Always set `title`, `status=open`, `priority`, `category`,
-   `description`, and `created=<today, YYYY-MM-DD>`.
-3. Keep `description` self-contained: someone (or some agent) with no other
-   context should be able to act on it.
-
-### Report board health
-
-Combine queries into a short report: open count by priority, stale tasks
-(created long ago, still open, no assignee), and tasks past their
-`deadline`. Useful as a recurring check.
+1. Fetch the task page: `get-page("WIKI FOSSCELL NITC:Tasks/<task>")`
+2. Set `assignee=<your-username>` in the `{{Task}}` call.
+3. Set `status=claimed`.
+4. Save with summary `Bot: Claim task — <agent>`.
 
 ---
 
-## Rules
+## How to assign a task to someone else
+
+1. Fetch the task page.
+2. Set `assignee=<their-username>`.
+3. Leave `status=open` (they can claim it when ready) or set `status=claimed`.
+4. Save with summary `Bot: Assign to <User> — <agent>`.
+
+---
+
+## How to update task status
+
+| Current → Target | Summary |
+|---|---|
+| `claimed` → `in-progress` | `Bot: Mark in-progress — <agent>` |
+| `in-progress` → `review` | `Bot: Submit for review — <agent>` |
+| `review` → `done` | `Bot: Mark done — <agent>` |
+| `review` → `in-progress` | `Bot: Return for changes — <agent>` |
+
+Always fetch the page first, change `status`, add any relevant updates to
+`description` or `== Notes ==`, then save with the revision ID for conflict
+detection.
+
+---
+
+## How to report board health
+
+Combine queries into a concise health report. Return this to the human as a
+formatted summary.
+
+### Health check queries
+
+```
+{{#cargo_query:tables=WikiTasks|fields=status,COUNT(*)=n|group by=status|format=ul}}
+```
+— counts by status
+
+```
+{{#cargo_query:tables=WikiTasks|fields=priority,COUNT(*)=n|where=status!='done'|group by=priority|format=ul}}
+```
+— open counts by priority
+
+```
+{{#cargo_query:tables=WikiTasks|fields=category,COUNT(*)=n|where=status='open'|group by=category|format=ul}}
+```
+— open tasks by category
+
+```
+{{#cargo_query:tables=WikiTasks|fields=_pageName,task_title,assignee,deadline,created_date
+|where=status!='done' AND assignee!='' AND created_date < '2026-06-01'
+|format=table}}
+```
+— potentially stale (no recent activity)
+
+```
+{{#cargo_query:tables=WikiTasks|fields=_pageName,task_title,assignee,deadline
+|where=deadline < '2026-06-19' AND status!='done'
+|format=table}}
+```
+— overdue tasks
+
+---
+
+## Team categories for task routing
+
+When creating or querying tasks, use these team categories to route work:
+
+| Category | Team |
+|---|---|---|
+| `template-admins` | Template Administrators |
+| `app-dev` | Application Developers |
+| `prc` | Public Relations Committee |
+| `social-media` | Social Media team |
+| `video-editors` | Video Editing team |
+| `mcp-admins` | MCP Server Administrators |
+
+Query unclaimed tasks for a team:
+`category HOLDS 'template-admins' AND assignee=''`
+
+User roles are tracked as categories on user pages, not in the task system.
+To find members of a team:
+`get-category-members("Template Admins")`
+
+---
+
+## Rules to follow
 
 - One task per page; one `{{Task}}` call per page.
-- Do not delete task pages; close them by status change so history stays.
-- Tasks that require admin rights (blocks, template-namespace edits) can be
-  created by anyone but only executed by an admin; say so in the
-  description.
-- Show the human the proposed `{{Task}}` wikitext before creating new tasks.
+- Do not delete task pages — close them by changing `status=done`.
+- Show the human proposed wikitext before creating new tasks (review protocol).
+- Tasks requiring admin rights should say so in the description.
+- Always fetch current content before editing (edit-conflict detection).
+- Use the correct edit summary format (see `rules/task-board.md §12`).
+
+---
 
 ## Authoritative references
 
-- `Template:Task` on the live wiki - field names and accepted values.
-- `rules/page-types.md` - "Task (Project Task Board)" section.
-- `.agents/skills/cargo-auditor` - the parser-function query technique.
-- `Agents.md` - write rules and review protocol.
+- `rules/task-board.md` — full task management rules and conventions.
+- `Template:Task` on the live wiki — field names, accepted status/priority/category values.
+- `rules/page-types.md` — "Task (Project Task Board)" recipe.
+- `.agents/skills/cargo-auditor` — parser-function query technique.
+- `Agents.md` — master rules, review protocol, and edit summary format.

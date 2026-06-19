@@ -88,7 +88,8 @@ or restricted API modules without explicit human approval.
 
 > **This is a structured-data wiki** (Cargo + SMW + Page Forms). Before creating
 > content, read [`rules/structured-data.md`](rules/structured-data.md) and the
-> per-type recipes in [`rules/page-types.md`](rules/page-types.md).
+> per-type recipes in [`rules/page-types.md`](rules/page-types.md). Task-board
+> operations follow [`rules/task-board.md`](rules/task-board.md).
 
 ---
 
