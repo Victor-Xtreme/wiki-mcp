@@ -52,22 +52,10 @@ Only admins may set `critical`. Anyone may set `high`/`medium`/`low`.
 
 ## 4. Category taxonomy
 
-Each task carries both a **work-type** category and an optional **team**
-category. Multiple categories are pipe-separated:
-`|category=content,template-admins`.
+Tasks use **team categories** for routing. Multiple categories may be
+comma-separated: `|category=template-admins,mcp-admins`.
 
-### Work-type categories (describe the kind of work)
-
-| Category | Colour | What fits |
-|---|---|---|
-| `content` | Blue | Writing, categorising, backfilling pages |
-| `templates` | Purple | Creating/editing templates, infoboxes |
-| `infra` | Teal | Extensions, modules, spam, server-side |
-| `design` | Dark | Visual design, CSS, layouts |
-| `outreach` | Orange | Alumni outreach, campaigns, social media |
-| `documentation` | Grey | Policy docs, style guides, help pages |
-
-### Team categories (who owns the work)
+### Team categories
 
 | Category | Team |
 |---|---|---|
