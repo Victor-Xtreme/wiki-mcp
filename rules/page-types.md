@@ -86,6 +86,7 @@ The most structured page type on the wiki.
 
 - **Title / namespace:** `WIKI FOSSCELL NITC:Tasks/<short title>`.
 - **Template:** `{{Task|title=|status=|priority=|category=|description=|created=}}`.
+- **Rules:** see [`task-board.md`](task-board.md) for full lifecycle, status transitions, category taxonomy, and conventions.
 
 ---
 

@@ -88,7 +88,8 @@ or restricted API modules without explicit human approval.
 
 > **This is a structured-data wiki** (Cargo + SMW + Page Forms). Before creating
 > content, read [`rules/structured-data.md`](rules/structured-data.md) and the
-> per-type recipes in [`rules/page-types.md`](rules/page-types.md).
+> per-type recipes in [`rules/page-types.md`](rules/page-types.md). Task-board
+> operations follow [`rules/task-board.md`](rules/task-board.md).
 
 ---
 
@@ -230,6 +231,6 @@ The human operator should be able to open each `draftpage-*.html` in a browser a
 
 ## 10. Enforcement
 
-- Every agent integration in the Wiki-NITC organisation **must** load this document and follow its rules.
+- Every agent integration in the Wiki-NITC organisation **must** load this document and follow its rules.(Rules are present in the rules folder.)
 - If an agent's setup contradicts any rule here, this document takes precedence.
 - Violations should be reported to the wiki sysops via `Special:EmailUser` or the FOSS Cell communication channel.
