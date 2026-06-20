@@ -215,7 +215,7 @@ The agent must provide the human with:
 When the user asks you to prepare a draft (of category pages, template changes, new pages, or any batch edit), follow this procedure:
 
 ### Location
-- Create a `drafts/` directory at the project root (`D:\Projects\NITC Wiki\NITC Wiki MCP\drafts\`) if it does not already exist.
+- Create a `drafts/` directory at the project root (`{repo_root}/drafts/`) if it does not already exist.
 - Place **all** draft files inside this directory. Do not scatter drafts elsewhere in the repo.
 
 ### Contents
