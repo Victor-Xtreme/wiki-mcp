@@ -1,11 +1,11 @@
 ---
 name: meeting-processor
-description: Convert meeting transcripts into structured meeting minutes on the NITC Wiki and create individual task pages in the WikiTasks Cargo table, deduplicating against existing tasks. Use when a user provides a meeting transcript (Google Meet/Gemini notes or similar) and wants minutes generated plus action items tracked on the task board.
+description: Convert meeting transcripts into structured meeting minutes on the NITC Wiki and create individual task pages in the WikiTasks Cargo table, deduplicating against existing tasks. Use when a user provides a meeting transcript (Google Meet/Gemini notes/Jitsi Meet or similar) and wants minutes generated plus action items tracked on the task board.
 ---
 
-# Meeting Transcript → Minutes + Tasks
+# Meeting Transcript -> Minutes + Tasks
 
-Converts a meeting transcript (from Google Meet/Gemini or similar) into a
+Converts a meeting transcript (from Google Meet/Gemini/Jitsi Meet or similar) into a
 structured Meeting Minutes page on the wiki and creates individual task pages
 in the WikiTasks Cargo table, deduplicating against existing tasks.
 
@@ -44,12 +44,12 @@ accordingly or ask the human for clarification.
 
 ## Data sources
 
-1. **Transcript** — provided by the user (the trigger).
-2. **Team roster** — `WIKI FOSSCELL NITC:Wiki Admin Team/2026-27` page for
-   username → team → category mapping.
-3. **WikiTasks Cargo table** — queried via `parse-wikitext` with
+1. **Transcript** -- provided by the user (the trigger).
+2. **Team roster** -- `WIKI FOSSCELL NITC:Wiki Admin Team/2026-27` page for
+   username -> team -> category mapping.
+3. **WikiTasks Cargo table** -- queried via `parse-wikitext` with
    `{{#cargo_query:}}` for dedup checks.
-4. **Template:Task** — used as-is for creating task pages.
+4. **Template:Task** -- used as-is for creating task pages.
 
 ---
 
@@ -59,13 +59,13 @@ accordingly or ask the human for clarification.
 
 Extract from the user-provided transcript:
 
-- **Meeting date & time** — from the first lines.
-- **Attendees** — infer from names appearing in Next steps and Details.
-- **Summary** — the paragraph(s) under "Summary".
-- **Decisions** — each line under "Decisions".
-- **Next steps** — each `[Name] Task description` line.
-- **Details** — each `=== Topic ===` section with its narrative.
-- **Group items** — lines starting with `[The group]` in Next steps treated as group assignments.
+- **Meeting date & time** -- from the first lines.
+- **Attendees** -- infer from names appearing in Next steps and Details.
+- **Summary** -- the paragraph(s) under "Summary".
+- **Decisions** -- each line under "Decisions".
+- **Next steps** -- each `[Name] Task description` line.
+- **Details** -- each `=== Topic ===` section with its narrative.
+- **Group items** -- lines starting with `[The group]` in Next steps treated as group assignments.
 
 ### 2. Fuzzy-match names to wiki usernames
 
@@ -75,9 +75,9 @@ For each unique name found in Next steps and Details:
 2. If no direct match, try the last word of the name (e.g. "Thomas" for
    "Joshua Jacob Thomas").
 3. If still no match, try the first word as a `User:` page search.
-4. If ambiguous (multiple matches) or no match at all → **ask the human**.
+4. If ambiguous (multiple matches) or no match at all -> **ask the human**.
 
-**Known mapping (for reference — fuzzy match should find these):**
+**Known mapping (for reference -- fuzzy match should find these):**
 
 | Transcript name | Wiki username |
 |---|---|
@@ -94,7 +94,10 @@ For each unique name found in Next steps and Details:
 
 **Title:** `WIKI FOSSCELL NITC:Meetings/YYYY-MM-DD`
 
-(Note: if a meeting already exists for this date, append `-2`, `-3`, etc.)
+**Before creating, check if page already exists:**
+1. Call `get-page` with the proposed title.
+2. If the page exists, append `-2`, `-3`, etc. until the title is free.
+3. Record the resolved title for Step 7.
 
 **Wikitext format:**
 
@@ -161,10 +164,10 @@ description for deadline cues and parse them relative to the meeting date:
 |---|---|---|
 | `by <date>` | "by 2026-06-25" or "by June 25" | That date |
 | `within <N> days` | "within 3 days" | Meeting date + N |
-| `within <N> weeks` | "within 2 weeks" | Meeting date + N×7 |
+| `within <N> weeks` | "within 2 weeks" | Meeting date + Nx7 |
 | `by <dayname>` | "by Friday", "by Monday" | Next occurrence of that day |
 | `before next meeting` | "before next meeting" | Meeting date + 7 |
-| `this week` | "this week" | Meeting date + (6 - day_of_week) → Saturday |
+| `this week` | "this week" | Meeting date + (6 - day_of_week) -> Saturday |
 | `tomorrow` | "by tomorrow" | Meeting date + 1 |
 | `next week` | "next week" | Meeting date + 7 |
 | `by end of <month>` | "by end of June" | Last day of that month |
@@ -253,11 +256,23 @@ or "by Friday"), populate the `|deadline=` field. Otherwise leave it empty.
 
 If the member is not found in the team roster, leave `category` empty.
 
-Use `create-page` to create the task page.
+**Before creating, check if page already exists:**
+1. Call `get-page` with the proposed title.
+2. If the page exists, the task was likely created from a previous meeting.
+   Skip creation and note in the minutes:
+   `Already exists at [[WIKI FOSSCELL NITC:Tasks/<existing>|existing task]]`.
 
-**Before saving, show the human each proposed `{{Task}}` content** (review
-protocol). Batch all proposed tasks into a single message and ask:
-"Create all N tasks? (Y/N)"
+**Per-task human confirmation:**
+For each unique task that passed all checks, show the human the proposed
+`{{Task}}` content and ask:
+```
+Create task '<Slug>'? (Y/N/D)
+```
+- **Y** -- create the page via `create-page`.
+- **N** -- skip entirely (do not note in minutes).
+- **D** -- defer. Skip for now but add to minutes as `Deferred -- not yet assigned`.
+
+Only proceed to the next task after receiving input on the current one.
 
 ### 7. Update the minutes page with task links
 
@@ -271,7 +286,7 @@ skipped tasks:
 |-
 | [[WIKI FOSSCELL NITC:Tasks/Mtg-2026-06-21-Fix-Images|Fix image rendering]] || Vysakh || high || open
 |-
-| ''Already tracked by [[WIKI FOSSCELL NITC:Tasks/Some-task|existing task]]'' || — || — || —
+| ''Already tracked by [[WIKI FOSSCELL NITC:Tasks/Some-task|existing task]]'' || -- || -- || --
 |}
 ```
 
@@ -288,18 +303,21 @@ Use `update-page` with edit-conflict detection (`latestId` from the initial
 | Similar active task exists in WikiTasks | Skip, note existing link in minutes |
 | Task clearly already done (completed language in transcript) | Skip entirely |
 | Assignee name cannot be mapped (after asking human) | Skip, flag in minutes as "unassigned" |
+| Title already exists on wiki | Skip, note pre-existing link in minutes |
+| Human declines (N) | Skip entirely -- do not note in minutes |
+| Human defers (D) | Skip creation, note as "Deferred" in minutes |
 
 ---
 
 ## Review protocol
 
-Per `Agents.md §8`, the skill must pause and surface to the human:
+Per `Agents.md sec. 8`, the skill must pause and surface to the human:
 
-1. **Before creating the minutes page** — show the proposed wikitext.
-2. **Before creating any task page** — show the proposed `{{Task}}` content.
-3. **When a name cannot be matched** — show the name and possible matches,
+1. **Before creating the minutes page** -- show the proposed wikitext.
+2. **Before creating any task page** -- show the proposed `{{Task}}` content.
+3. **When a name cannot be matched** -- show the name and possible matches,
    ask for clarification.
-4. **When multiple tasks are ready** — batch confirm: "Create all N tasks?"
+4. **For each task** -- individual Y/N/D confirmation (see Step 6).
 
 ---
 
@@ -307,16 +325,16 @@ Per `Agents.md §8`, the skill must pause and surface to the human:
 
 | Action | Summary |
 |---|---|
-| Create minutes page | `Bot: Add meeting minutes for YYYY-MM-DD — meeting-processor` |
-| Create task page | `Bot: Create task from meeting YYYY-MM-DD — meeting-processor` |
-| Update minutes with links | `Bot: Link action items on minutes — meeting-processor` |
+| Create minutes page | `Bot: Add meeting minutes for YYYY-MM-DD -- meeting-processor` |
+| Create task page | `Bot: Create task from meeting YYYY-MM-DD -- meeting-processor` |
+| Update minutes with links | `Bot: Link action items on minutes -- meeting-processor` |
 
 ---
 
 ## Related skills & references
 
-- `wiki-task-board` — task creation, status updates, and board queries.
-- `eod-status-report` — team roster parsing and name cross-referencing.
-- `Agents.md` — master rules, review protocol (§8), edit summary format (§1).
-- `rules/namespaces.md` — naming conventions.
-- `Template:Task` on the live wiki — field names and accepted values.
+- `wiki-task-board` -- task creation, status updates, and board queries.
+- `eod-status-report` -- team roster parsing and name cross-referencing.
+- `Agents.md` -- master rules, review protocol (sec. 8), edit summary format (sec. 1).
+- `rules/namespaces.md` -- naming conventions.
+- `Template:Task` on the live wiki -- field names and accepted values.
