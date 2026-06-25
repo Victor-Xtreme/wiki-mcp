@@ -35,6 +35,7 @@ The established convention (observed across hundreds of pages) is:
 | `Category:People` | People in general. |
 | `Category:Faculty` | Faculty members. |
 | `Category:Departments` | Academic departments. |
+| `Category:Curriculum` | B.Tech curriculum / syllabus pages. |
 | `Category:Academics`, `Category:Courses` | Academic content; courses. |
 | `Category:Campus` | Campus places (umbrella). |
 | `Category:Academic Buildings`, `Category:Laboratories` | Buildings and labs. |
