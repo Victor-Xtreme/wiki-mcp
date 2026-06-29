@@ -11,7 +11,7 @@ in the YYYY: namespace. This skill documents that pattern.
 
 > **New main pages:** For new home team main pages, prefer `{{Infobox Organization}}`
 > (via `Form:Organization`) with `type=Cultural Organisation` / `Technical Organisation`
-> / `Sports Organisation` — it stores to the `Clubs` Cargo table. The legacy
+> / `Sports Organisation` — it stores to the `Organizations` Cargo table. The legacy
 > `{{Infobox Home Team}}` (no Cargo storage) is only for existing pages.
 > The yearly sub-page pattern (`{{Home Team Year Report}}`) is not deprecated.
 
@@ -24,7 +24,7 @@ in the YYYY: namespace. This skill documents that pattern.
 
 ## Main page (Main namespace)
 
-### Template: `{{Infobox Home Team}}`
+### Template: `{{Infobox Home Team}}` (deprecated — redirects to `{{Infobox Organization}}`)
 
 Parameters (all optional):
 
@@ -191,8 +191,8 @@ For technical home teams, use the `project` and `docs` params:
 2. **Check no page exists** with the same name (`get-page`).
 3. **Fetch a reference page** — `NITC Mime Team` or `The Act: Drama Team`.
 4. **Draft the main page:**
-   - `{{Infobox Organization}}` with `type=Cultural Organisation` / `Technical Organisation` / `Sports Organisation` (preferred — stores to `Clubs` Cargo table)
-   - Do not use {{Infobox Home Team}} for new pages (legacy, no Cargo storage)
+   - `{{Infobox Organization}}` with `type=Cultural Organisation` / `Sports Organisation` (preferred — stores to `Organizations` Cargo table)
+   - Do not use `{{Infobox Home Team}}` for new pages (legacy, no Cargo storage)
    - Bold lead sentence
    - `== Yearly Reports ==` listing
    - `== Achievements ==` by batch

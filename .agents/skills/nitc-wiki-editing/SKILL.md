@@ -41,9 +41,9 @@ Page Forms) — naive edits silently break queries, dashboards, and the Main Pag
 | Type | Namespace | Form → Template | Key categories |
 |---|---|---|---|---|
 | Event | `YYYY:` | `Form:Event` → `{{Event}}` + `{{Infobox Event}}`/`{{Infobox FOSSMeet}}` | `Events`, `FOSSMeet`, `FOSSMeet 2026` |
-| Organisation (club) | Main | `Form:Organization` → `{{Infobox Organization}}` (type=Professional/Non-Technical) | Auto: `Clubs and Organizations` + type-specific |
-| Organisation (home team) | Main | `Form:Organization` → `{{Infobox Organization}}` (type=Cultural/Technical/Sports) | Auto: `Home Teams` + type-specific |
-| Organisation (legacy) | Main | `Form:Club` → `{{Infobox Club}}` (no Cargo) | `Clubs and Organizations` |
+| Organisation (club) | Main | `Form:Organization` → `{{Infobox Organization}}` (type=Professional/Non-Technical/Technical) | Auto: `Clubs` + type-specific |
+| Organisation (home team) | Main | `Form:Organization` → `{{Infobox Organization}}` (type=Cultural/Sports) | Auto: `Home Teams` / `Sports` |
+| Organisation (legacy) | Main | `Form:Club` → `{{Infobox Club}}` (no Cargo) | `Clubs and Organizations` (deprecated) |
 | Person | Main | `Form:Person` → `{{Infobox Person}}` | `People` |
 | Faculty | Main | `Form:Faculty` → `{{Infobox Faculty}}` | `Faculty` |
 | Course | Main | `Form:Course` → `{{Infobox Course}}` | `Courses`, `Theory Courses`/`Lab Courses` |

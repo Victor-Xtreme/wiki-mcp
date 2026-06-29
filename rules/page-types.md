@@ -32,10 +32,7 @@ The most structured page type on the wiki.
 
 ## Organisation (club / home team)
 
-Covers both student clubs (professional, non-technical) and home teams (cultural,
-technical, sports). **Always use the unified `{{Infobox Organization}}` for new
-pages** — it stores to the `Clubs` Cargo table, making the page visible in
-structured queries.
+Covers both student clubs (professional, technical, non-technical) and home teams (cultural, sports). **Always use the unified `{{Infobox Organization}}` for new pages** — it stores to the `Organizations` Cargo table, making the page visible in structured queries.
 
 - **Title / namespace:** common name in main namespace (`FOSSCell`, `The Act: Drama Team`).
 - **Form / template (preferred):** `Form:Organization` → `{{Infobox Organization}}`
@@ -45,9 +42,12 @@ structured queries.
   `status`, `instagram`, `youtube`, `github`, `email`, `telegram`, `website`,
   `description`, `discipline`, `meeting_place`, `achievements_count`, ...).
   The `type` parameter controls auto-categorisation:
-  - `Cultural Organisation` / `Technical Organisation` / `Sports Organisation` → auto-categorised under `Home Teams`
-  - `Professional Organisation` / `Non-Technical Organisation` → auto-categorised under `Clubs and Organizations`
-- **Legacy (existing pages only):** `Form:Club` → `{{Infobox Club}}` (no Cargo storage)
+  - `Cultural Organisation` → auto-categorised under `Home Teams`
+  - `Technical Organisation` → auto-categorised under `Clubs` + `Technical Clubs`
+  - `Sports Organisation` → auto-categorised under `Sports`
+  - `Professional Organisation` → auto-categorised under `Clubs` + `Professional Clubs`
+  - `Non-Technical Organisation` → auto-categorised under `Clubs` + `Non-Technical Clubs`
+- **Legacy (existing pages only, if any):** `Form:Club` → `{{Infobox Club}}` (no Cargo storage)
   and `Form:Home Team` → `{{Infobox Home Team}}` (no Cargo storage). Do not use for
   new pages — they won't appear in Cargo queries.
 - **Body:** intro, `== Yearly Reports ==`, `== Achievements ==` (batch-organised for
@@ -92,7 +92,7 @@ structured queries.
 - **Form / template (legacy):** `Form:Home Team` → `{{Infobox Home Team}}`
   (no Cargo storage). For **new** home team main pages, use
   `Form:Organization` → `{{Infobox Organization}}` with `type=Cultural Organisation`
-  (or Technical Organisation / Sports Organisation) instead.
+  (or `Technical Organisation` / `Sports Organisation`) instead.
 - **Yearly sub-pages** still use `Form:Home Team Year` → `{{Home Team Year Report}}`
   (this template is not deprecated).
 - **Category:** `[[Category:Home Teams]]` (auto-assigned by `{{Infobox Organization}}`

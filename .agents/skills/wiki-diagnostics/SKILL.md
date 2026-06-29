@@ -59,8 +59,8 @@ queries or on listing pages (e.g. `Clubs`, `Multidisciplinary Centres`).
 ### How to detect
 
 ```
-get-links-here(title="Template:Infobox Club", type="transclusions")
-search-page(query="Category:Clubs and Organizations")
+get-links-here(title="Template:Infobox Organization", type="transclusions")
+search-page(query="Category:Clubs")
 ```
 
 Compare the two lists. Pages in the category but not transcluding the infobox
@@ -70,8 +70,8 @@ category are candidates for categorization fixes.
 ### How to fix
 
 Fetch the page, fetch a sibling page that has the infobox, and add the
-`{{Infobox Club | ... }}` block at the top. Never replace existing prose - prepend
-the infobox. Always read `Template:Infobox Club` for current field names first.
+`{{Infobox Organization | ... }}` block at the top. Never replace existing prose - prepend
+the infobox. Always read `Template:Infobox Organization` for current field names first.
 
 ---
 
@@ -108,7 +108,7 @@ pages. Fetch a sample of pages from:
 
 ```
 get-links-here(title="Template:Infobox Event", type="transclusions")
-get-links-here(title="Template:Infobox Club", type="transclusions")
+get-links-here(title="Template:Infobox Organization", type="transclusions")
 ```
 
 ### How to fix
