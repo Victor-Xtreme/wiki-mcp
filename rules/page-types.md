@@ -30,14 +30,31 @@ The most structured page type on the wiki.
 - **Categories:** specific + year + umbrella, e.g.
   `[[Category:FOSSMeet]] [[Category:FOSSMeet 2026]] [[Category:Events]]`.
 
-## Club / organisation
+## Organisation (club / home team)
 
-- **Title / namespace:** common name in main namespace (`FOSSCell`).
-- **Form / template:** `Form:Club` → `{{Infobox Club}}`
-  (`name`, `image`, `type`, `affiliated_with`, `teams`, `flagship_event`).
-- **Body:** intro, `== Team Structure ==` (a `{{#mermaid:}}` graph is common),
-  `== Events ==`, `== History ==`.
-- **Category:** `[[Category:Clubs and Organizations]]`.
+Covers both student clubs (professional, non-technical) and home teams (cultural,
+technical, sports). **Always use the unified `{{Infobox Organization}}` for new
+pages** — it stores to the `Clubs` Cargo table, making the page visible in
+structured queries.
+
+- **Title / namespace:** common name in main namespace (`FOSSCell`, `The Act: Drama Team`).
+- **Form / template (preferred):** `Form:Organization` → `{{Infobox Organization}}`
+  (27 fields: `name`, `type`, `logo`, `image`, `fullname`, `shortname`, `founded`,
+  `founder`, `faculty_advisor`, `parent_fest`, `flagship_event`, `parent_org`,
+  `induction_year`, `batch_size`, `member_count`, `current_lead`, `captain`,
+  `status`, `instagram`, `youtube`, `github`, `email`, `telegram`, `website`,
+  `description`, `discipline`, `meeting_place`, `achievements_count`, ...).
+  The `type` parameter controls auto-categorisation:
+  - `Cultural Organisation` / `Technical Organisation` / `Sports Organisation` → auto-categorised under `Home Teams`
+  - `Professional Organisation` / `Non-Technical Organisation` → auto-categorised under `Clubs and Organizations`
+- **Legacy (existing pages only):** `Form:Club` → `{{Infobox Club}}` (no Cargo storage)
+  and `Form:Home Team` → `{{Infobox Home Team}}` (no Cargo storage). Do not use for
+  new pages — they won't appear in Cargo queries.
+- **Body:** intro, `== Yearly Reports ==`, `== Achievements ==` (batch-organised for
+  home teams), `== See also ==`.
+- **Categories:** auto-assigned by the template based on `type`. Verify the
+  type-specific subcategories exist with `search-page-by-prefix` (they may need
+  creation — see [categories.md](categories.md)).
 
 ## Person
 
@@ -70,11 +87,16 @@ The most structured page type on the wiki.
 - **Form / template:** `Form:Hostel` → `{{Infobox Hostel}}`.
 - **Category:** `[[Category:Hostels]]`.
 
-## Home team
+## Home team (legacy — prefer Organisation path above)
 
-- **Form / template:** `Form:Home Team` / `Form:Home Team Year` →
-  `{{Infobox Home Team}}` / `{{Infobox Home Team Year}}`.
-- **Category:** `[[Category:Home Teams]]`.
+- **Form / template (legacy):** `Form:Home Team` → `{{Infobox Home Team}}`
+  (no Cargo storage). For **new** home team main pages, use
+  `Form:Organization` → `{{Infobox Organization}}` with `type=Cultural Organisation`
+  (or Technical Organisation / Sports Organisation) instead.
+- **Yearly sub-pages** still use `Form:Home Team Year` → `{{Home Team Year Report}}`
+  (this template is not deprecated).
+- **Category:** `[[Category:Home Teams]]` (auto-assigned by `{{Infobox Organization}}`
+  for cultural/technical/sports types).
 
 ## HowTo guide
 

@@ -39,9 +39,11 @@ Page Forms) — naive edits silently break queries, dashboards, and the Main Pag
 ## Page-type cheat sheet
 
 | Type | Namespace | Form → Template | Key categories |
-|---|---|---|---|
+|---|---|---|---|---|
 | Event | `YYYY:` | `Form:Event` → `{{Event}}` + `{{Infobox Event}}`/`{{Infobox FOSSMeet}}` | `Events`, `FOSSMeet`, `FOSSMeet 2026` |
-| Club | Main | `Form:Club` → `{{Infobox Club}}` | `Clubs and Organizations` |
+| Organisation (club) | Main | `Form:Organization` → `{{Infobox Organization}}` (type=Professional/Non-Technical) | Auto: `Clubs and Organizations` + type-specific |
+| Organisation (home team) | Main | `Form:Organization` → `{{Infobox Organization}}` (type=Cultural/Technical/Sports) | Auto: `Home Teams` + type-specific |
+| Organisation (legacy) | Main | `Form:Club` → `{{Infobox Club}}` (no Cargo) | `Clubs and Organizations` |
 | Person | Main | `Form:Person` → `{{Infobox Person}}` | `People` |
 | Faculty | Main | `Form:Faculty` → `{{Infobox Faculty}}` | `Faculty` |
 | Course | Main | `Form:Course` → `{{Infobox Course}}` | `Courses`, `Theory Courses`/`Lab Courses` |

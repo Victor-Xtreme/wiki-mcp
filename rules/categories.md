@@ -29,8 +29,13 @@ The established convention (observed across hundreds of pages) is:
 | `Category:Events` | Any event or festival edition (also add the year + specific event cat). |
 | `Category:FOSSMeet` | FOSSMeet pages (plus `Category:FOSSMeet YYYY`). |
 | `Category:Ragam`, `Category:Tathva` | Those festivals. |
-| `Category:Clubs and Organizations` | Student clubs (e.g. FOSSCell). |
-| `Category:Home Teams` | Hostel/home teams. |
+| `Category:Clubs and Organizations` | Student clubs (e.g. FOSSCell). Umbrella for `Category:Professional Organisations` and `Category:Non-Technical Organisations`. |
+| `Category:Home Teams` | Home teams (cultural, technical, sports). Umbrella for `Category:Cultural Organisations`, `Category:Technical Organisations`, and `Category:Sports Organisations`. |
+| `Category:Cultural Organisations` | Cultural home teams (auto-assigned by `{{Infobox Organization}}` with `type=Cultural Organisation`). |
+| `Category:Technical Organisations` | Technical home teams (auto-assigned by `{{Infobox Organization}}` with `type=Technical Organisation`). |
+| `Category:Sports Organisations` | Sports home teams (auto-assigned by `{{Infobox Organization}}` with `type=Sports Organisation`). |
+| `Category:Professional Organisations` | Professional clubs (auto-assigned by `{{Infobox Organization}}` with `type=Professional Organisation`). |
+| `Category:Non-Technical Organisations` | Non-technical clubs (auto-assigned by `{{Infobox Organization}}` with `type=Non-Technical Organisation`). |
 | `Category:Communities` | Interest groups / communities. |
 | `Category:People` | People in general. |
 | `Category:Faculty` | Faculty members. |
