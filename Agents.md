@@ -26,9 +26,9 @@ Bot: <action> — <agent-name>
 ```
 
 Examples:
-- `Bot: Creating page "Ragam 2026" — Claude`
+- `Bot: Creating page "2026:Ragam" — Claude`
 - `Bot: Fixing typo in "FOSSCell/About" — Cursor`
-- `Bot: Uploading poster for Tathva 2025 — Copilot`
+- `Bot: Uploading poster for 2025:Tathva — Copilot`
 
 The agent name must match the `User-Agent` header sent to the MediaWiki API.
 
