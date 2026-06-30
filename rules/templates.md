@@ -15,7 +15,10 @@ templates (`Cite web`, etc.) are *not yet imported*, so don't assume them.
 
 | Template | Use on | Auto-categorises pages as | Template page categorised under | Notes |
 |---|---|---|---|---|---|
-| `{{Infobox Club}}` | Club / organisation pages | `Category:Clubs and Organizations` | `Category:Infobox templates` | params: `name`, `image`, `type`, `affiliated_with`, `teams`, `flagship_event` |
+| `{{Infobox Organization}}` | Any organisation (club or home team) — **preferred** | Varies by `type`: see below | `Category:Infobox templates` | **Stores to `Organizations` Cargo table** (27 fields). Replaces `{{Infobox Club}}` and `{{Infobox Home Team}}` for new pages. `type` values: `Cultural Organisation`, `Technical Organisation`, `Sports Organisation`, `Professional Organisation`, `Non-Technical Organisation`. Auto-categorises: Cultural → `Home Teams`; Technical/Professional/Non-Technical → `Clubs` + type-specific cat; Sports → `Sports`. |
+| `{{Infobox Club}}` | Club / organisation pages — **legacy** | `Category:Clubs and Organizations` | `Category:Infobox templates` | **No Cargo storage.** Use `{{Infobox Organization}}` instead for new pages. Parameters: `name`, `image`, `type`, `affiliated_with`, `teams`, `flagship_event`. **Redirects to `{{Infobox Organization}}`**. |
+| `{{Infobox Home Team}}` | Home teams — **legacy** | `Category:Home Teams` | `Category:Infobox templates` | **No Cargo storage.** Use `{{Infobox Organization}}` with `type=Cultural Organisation` / `Technical Organisation` / `Sports Organisation` for new main pages. **Redirects to `{{Infobox Organization}}`**. |
+| `{{Infobox Home Team Year}}` | Home team yearly pages | *(none — gap)* | `Category:Infobox templates` | Does not auto-categorise pages; consider adding manually. Not deprecated. |
 | `{{Infobox FOSSMeet}}` | FOSSMeet edition pages | `Category:FOSSMeet`, `Category:Events` (+ year-specific) | `Category:Infobox templates` | edition/year/dates/venue/keynote/etc. |
 | `{{Infobox Event}}` | General event pages | `Category:Events` | `Category:Infobox templates` | |
 | `{{Infobox Person}}` | People | `Category:People` | `Category:Infobox templates` | |
@@ -24,8 +27,6 @@ templates (`Cite web`, etc.) are *not yet imported*, so don't assume them.
 | `{{Infobox Building}}` | Academic/campus buildings | `Category:Places in NITC` | `Category:Infobox templates` | |
 | `{{Infobox Campus Location}}` | Campus places | `Category:Campus` | `Category:Infobox templates` | |
 | `{{Infobox Hostel}}` | Hostels | `Category:Hostels` | `Category:Infobox templates` | |
-| `{{Infobox Home Team}}` | Home teams | `Category:Home Teams` | `Category:Infobox templates` | |
-| `{{Infobox Home Team Year}}` | Home team yearly pages | *(none — gap)* | `Category:Infobox templates` | Does not auto-categorise pages; consider adding manually. |
 | `{{Infobox Centre}}` | Centres | `Category:Multidisciplinary Centres` | `Category:Infobox templates` | |
 | `{{Infobox SAC Meeting}}` | SAC meeting minutes | `Category:SAC Minutes`, `Category:Student Government` | `Category:Infobox templates` | |
 | `{{Event}}` | **Any event page** | *(none — Cargo only)* | `Category:Infobox templates`, `Category:Main Page templates` | Stores to `Events` table; enables "This day in history". Pair with the matching infobox. |
@@ -51,9 +52,8 @@ Every preload must be categorised under `Category:Preload templates`.
 
 | Template | Used by form | Template page categorised under |
 |---|---|---|
-| `Template:Infobox Club/preload` | Create a Club form | `Category:Preload templates` |
+| `Template:Infobox Organization/preload` | Create an Organisation form | `Category:Preload templates` |
 | `Template:Infobox Hostel/preload` | Create a Hostel form | `Category:Preload templates` |
-| `Template:Infobox Home Team/preload` | Create a Home Team form | `Category:Preload templates` |
 | `Template:Infobox Home Team Year/preload` | Create a Home Team Year form | `Category:Preload templates` |
 | `Template:Infobox Campus Location/preload` | Create a Building form | `Category:Preload templates` |
 | `Template:Infobox Centre/preload` | Create a Centre form | `Category:Preload templates` |

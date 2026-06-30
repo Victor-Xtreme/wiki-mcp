@@ -9,6 +9,12 @@ Every home team (cultural, sports, technical) on the NITC Wiki follows the same
 two-layer pattern: a **main page** in the Main namespace and **yearly sub-pages**
 in the YYYY: namespace. This skill documents that pattern.
 
+> **New main pages:** For new home team main pages, prefer `{{Infobox Organization}}`
+> (via `Form:Organization`) with `type=Cultural Organisation` / `Technical Organisation`
+> / `Sports Organisation` — it stores to the `Organizations` Cargo table. The legacy
+> `{{Infobox Home Team}}` (no Cargo storage) is only for existing pages.
+> The yearly sub-page pattern (`{{Home Team Year Report}}`) is not deprecated.
+
 ## Reference pages (fetch these to see the pattern live)
 
 - **`NITC Mime Team`** — the original model. Full yearly sub-pages from B08 to B25.
@@ -18,7 +24,7 @@ in the YYYY: namespace. This skill documents that pattern.
 
 ## Main page (Main namespace)
 
-### Template: `{{Infobox Home Team}}`
+### Template: `{{Infobox Home Team}}` (deprecated — redirects to `{{Infobox Organization}}`)
 
 Parameters (all optional):
 
@@ -178,19 +184,20 @@ For technical home teams, use the `project` and `docs` params:
 ## Creating a new home team page
 
 1. **Verify templates exist** (`get-page` on each):
-   - `Template:Infobox Home Team`
+   - `Template:Infobox Organization` (preferred for main page — has Cargo storage)
    - `Template:Home Team Year Report`
    - `Template:Infobox Home Team Year`
    - `Template:Home Team Year Tabs`
 2. **Check no page exists** with the same name (`get-page`).
 3. **Fetch a reference page** — `NITC Mime Team` or `The Act: Drama Team`.
 4. **Draft the main page:**
-   - `{{Infobox Home Team}}` with known fields
+   - `{{Infobox Organization}}` with `type=Cultural Organisation` / `Sports Organisation` (preferred — stores to `Organizations` Cargo table)
+   - Do not use `{{Infobox Home Team}}` for new pages (legacy, no Cargo storage)
    - Bold lead sentence
    - `== Yearly Reports ==` listing
    - `== Achievements ==` by batch
    - `== See also ==`
-   - `[[Category:Home Teams]]` + optional subcategory
+   - Categories are auto-assigned by the template based on `type`
 5. **Create at least one yearly sub-page** for the current batch:
    - Title: `YYYY:TeamName`
    - Content: `{{Home Team Year Report|team=|year=|batch=}}`
@@ -201,9 +208,9 @@ For technical home teams, use the `project` and `docs` params:
 
 1. Fetch current content (`get-page`).
 2. If migrating from flat text to structured format:
-   - Add `{{Infobox Home Team}}` at the top.
+   - Add `{{Infobox Organization}}` with the matching `type` (preferred — enables Cargo queries) or `{{Infobox Home Team}}` (legacy).
    - Move existing achievements into batch-organized `== Achievements ==`.
    - Add `== Yearly Reports ==` with existing or placeholder yearly links.
-   - Add `[[Category:Home Teams]]`.
+   - Categories are auto-assigned by the template based on `type`.
 3. Always provide a clear edit summary:
    `Bot: <action> — <agent-name>`

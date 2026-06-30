@@ -29,12 +29,18 @@ The established convention (observed across hundreds of pages) is:
 | `Category:Events` | Any event or festival edition (also add the year + specific event cat). |
 | `Category:FOSSMeet` | FOSSMeet pages (plus `Category:FOSSMeet YYYY`). |
 | `Category:Ragam`, `Category:Tathva` | Those festivals. |
-| `Category:Clubs and Organizations` | Student clubs (e.g. FOSSCell). |
-| `Category:Home Teams` | Hostel/home teams. |
+| `Category:Clubs` | Student clubs (professional, technical, non-technical). Umbrella for `Category:Technical Clubs`, `Category:Non-Technical Clubs`, `Category:Professional Clubs`. |
+| `Category:Technical Clubs` | Technical clubs (auto-assigned by `{{Infobox Organization}}` with `type=Technical Organisation`). |
+| `Category:Non-Technical Clubs` | Non-technical clubs (auto-assigned by `{{Infobox Organization}}` with `type=Non-Technical Organisation`). |
+| `Category:Professional Clubs` | Professional clubs (auto-assigned by `{{Infobox Organization}}` with `type=Professional Organisation`). |
+| `Category:Home Teams` | Cultural home teams (auto-assigned by `{{Infobox Organization}}` with `type=Cultural Organisation`). |
+| `Category:Sports` | Sports teams (auto-assigned by `{{Infobox Organization}}` with `type=Sports Organisation`). |
+| `Category:Governance` | Student governance and administrative bodies (SAC, SGB, Home Team Council, etc.). |
 | `Category:Communities` | Interest groups / communities. |
 | `Category:People` | People in general. |
 | `Category:Faculty` | Faculty members. |
 | `Category:Departments` | Academic departments. |
+| `Category:Curriculum` | B.Tech curriculum / syllabus pages. |
 | `Category:Academics`, `Category:Courses` | Academic content; courses. |
 | `Category:Campus` | Campus places (umbrella). |
 | `Category:Academic Buildings`, `Category:Laboratories` | Buildings and labs. |

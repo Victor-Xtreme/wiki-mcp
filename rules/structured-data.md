@@ -61,7 +61,7 @@ If you have the MCP Cargo tools available, you can also explore tables directly:
 ## Page Forms (preferred way to create structured pages)
 
 The wiki defines **Forms** that generate correctly-structured pages. Existing
-forms include: `Form:Club`, `Form:Event`, `Form:FOSSMeet`, `Form:Course`,
+forms include: `Form:Organization`, `Form:Event`, `Form:FOSSMeet`, `Form:Course`,
 `Form:Faculty`, `Form:Person`, `Form:Centre`, `Form:Hostel`, `Form:Home Team`,
 `Form:Home Team Year`, `Form:Campus Location`, `Form:SAC Meeting`,
 `Form:CCD Year Report`, `Form:Centre Year Report`, `Form:Artwork Submission`,
@@ -70,9 +70,9 @@ forms include: `Form:Club`, `Form:Event`, `Form:FOSSMeet`, `Form:Course`,
 For agents:
 
 - A form is the **authoritative source of a page type's fields**. Before creating
-  (say) a club page, read `Form:Club` and the template it wraps to learn the exact
+  (say) an organisation page, read `Form:Organization` and the template it wraps to learn the exact
   parameters — don't invent them.
-- Humans usually create these via `Special:FormEdit/Club` (or the project
+- Humans usually create these via `Special:FormEdit/Organization` (or the project
   "Create a Club" helper pages). When an agent creates the page through the MCP
   `create-page`/`update-page` tools, it should reproduce the **same template call
   the form would have produced**, so the data and the form stay consistent.
