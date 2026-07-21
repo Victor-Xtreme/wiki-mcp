@@ -24,7 +24,8 @@ The most structured page type on the wiki.
   2. The matching infobox: `{{Infobox FOSSMeet}}` or `{{Infobox Event}}`.
   3. `{{DISPLAYTITLE:...}}` if the display title is stylised (`FOSSMeet'26`).
 - **Body:** lead paragraph, `== Highlights ==`, `== Sub Committees ==`,
-  `== See also ==` with subpage links, then the navbox.
+  `== See also ==` with subpage links, then the navbox. Achievements are automatically
+  rendered by `{{Infobox Organization}}` — do not add a manual `== Achievements ==` section.
 - **Subpages:** `/Schedule`, `/Speakers`, `/Team`, `/Gallery`, `/Coverage`,
   `/Roadmap` as needed.
 - **Categories:** specific + year + umbrella, e.g.
@@ -50,8 +51,8 @@ Covers both student clubs (professional, technical, non-technical) and home team
 - **Legacy (existing pages only, if any):** `Form:Club` → `{{Infobox Club}}` (no Cargo storage)
   and `Form:Home Team` → `{{Infobox Home Team}}` (no Cargo storage). Do not use for
   new pages — they won't appear in Cargo queries.
-- **Body:** intro, `== Yearly Reports ==`, `== Achievements ==` (batch-organised for
-  home teams), `== See also ==`.
+- **Body:** intro, `== Yearly Reports ==`, `== See also ==`. Achievements are automatically
+  rendered by `{{Infobox Organization}}` — do not add a manual `== Achievements ==` section.
 - **Categories:** auto-assigned by the template based on `type`. Verify the
   type-specific subcategories exist with `search-page-by-prefix` (they may need
   creation — see [categories.md](categories.md)).
